@@ -2,6 +2,9 @@ import streamlit as st
 import sqlite3
 from passlib.hash import pbkdf2_sha256
 import subprocess
+import webbrowser
+
+streamlit_url = "https://senior-project-stock-predicition.streamlit.app/"
 
 # Create/connect to the SQLite database
 def setup_database():
@@ -39,7 +42,7 @@ if page == "Login":
         if user and pbkdf2_sha256.verify(login_password, user[1]):
             st.success("Logged in as {}".format(login_username))
             # Navigate to the Main_page.py
-            subprocess.run(["streamlit", "run", "Main_page.py"])
+            webbrowser.open(streamlit_url)
         else:
             st.error("Invalid username or password")
 
