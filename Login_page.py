@@ -1,10 +1,6 @@
 import streamlit as st
 import sqlite3
 from passlib.hash import pbkdf2_sha256
-import subprocess
-import webbrowser
-
-streamlit_url = "https://senior-project-stock-predicition.streamlit.app/"
 
 # Create/connect to the SQLite database
 def setup_database():
@@ -41,8 +37,9 @@ if page == "Login":
 
         if user and pbkdf2_sha256.verify(login_password, user[1]):
             st.success("Logged in as {}".format(login_username))
-            # Navigate to the Main_page.py
-            webbrowser.open(streamlit_url)
+            # Set session state variable to indicate successful login
+            st.session_state.user_logged_in = True
+
         else:
             st.error("Invalid username or password")
 
@@ -74,6 +71,10 @@ if page == "Register":
             conn.close()
             st.success("User registered. You can now log in.")
 
+# Check if the user is logged in and display the redirect link
+if hasattr(st.session_state, 'user_logged_in') and st.session_state.user_logged_in:
+    st.success("You are logged in. Click the link below to redirect:")
+    st.components.v1.html('<a href="https://senior-project-stock-predicition.streamlit.app/" target="_blank">Go to Main Page</a>', height=50)
 
 
 
