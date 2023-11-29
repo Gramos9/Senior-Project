@@ -42,7 +42,7 @@ if page == "Login":
         if user and pbkdf2_sha256.verify(login_password, user[1]):
             st.success("Logged in as {}".format(login_username))
             # Navigate to the Main_page.py
-            webbrowser.open(streamlit_url)
+            subprocess.Popen(["open", streamlit_url])
         else:
             st.error("Invalid username or password")
 
